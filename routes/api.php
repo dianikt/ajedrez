@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\User;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,23 +15,21 @@ use App\User;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::name('partida')->match(array('GET'),'partida/{idPartida}', 'PartidaController@enviar');
-
-Route::get('/auth/{name}', function($name){
-	$users = User::where('name', $name)->select('token')->get();
+Route::post('/auth', function(Request $request){
 	
-	if($users[0]['token'] == 0){
+	$credentials = $request->only('email', 'password');
 
-		$rand_part = str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.uniqid());		
-		
-	$ok = User::where('name', $name)->update(['token' => $rand_part]);
-		
-	}else{
-		return $users[0]['token'];
+    if (Auth::attempt($credentials)) {  
+       
+		$rand_part = str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.uniqid());
+
+		$user = \Auth::User();
+		$email = $user['email'];
+		$ok = User::where('email', $email)->update(['token' => $rand_part]);	
+		return $user;
 	}
+	return "ko";
 
+	//return redirect()->intended('dashboard');	
 });
