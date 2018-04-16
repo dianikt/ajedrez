@@ -14,16 +14,14 @@ class CreateFichasTable extends Migration
     public function up()
     {
         Schema::create('fichas', function (Blueprint $table) {
-            $table->string('idficha')->unique();
+            $table->increments('idFicha');
             $table->integer('idPartida')->unsigned(); 
             $table->integer("jugador")->unsigned();
-            $table->String("fila");
-            $table->String("columna");
+            $table->String("pos");            
             $table->timestamps();
            
             $table->foreign('jugador')->references('id')->on('users');
             $table->foreign('idPartida')->references('idPartida')->on('partidas');
-
         });
     }
 
