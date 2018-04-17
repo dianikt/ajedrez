@@ -14,10 +14,10 @@ Route::post('/login', function(Request $request){
 
         $user = \Auth::User();
         $ok = User::where('email', $user['email'])->update(['token' => $rand_part]);    
-        return response()->json(['email' => $user['id'], 'token' => $user['token'],'mensaje'=>1]);
+        return response()->json(['email' => $user['id'],'mensaje'=>'Usuario identificado!']);
     }else {
         return response()->json(['email' => $user['email'],'mensaje'=> 'Usuario No identificado!']);
-    }
+    }		
 });
 
 Route::POST('/logout', function(Request $request){	
