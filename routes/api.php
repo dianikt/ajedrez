@@ -14,7 +14,7 @@ Route::post('/login', function(Request $request){
 
 		$user = \Auth::User();
 		$ok = User::where('email', $user['email'])->update(['token' => $rand_part]);	
-		return response()->json(['email' => $user['email'],'mensaje'=>'Usuario identificado!']);
+		return response()->json(['email' => $user['id'], 'token' => $user['token'],'mensaje'=>1]);
 	}else {
 		return response()->json(['email' => $user['email'],'mensaje'=> 'Usuario No identificado!']);
 	}
