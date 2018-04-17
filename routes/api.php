@@ -7,17 +7,17 @@ use App\fichas;
 
 
 Route::post('/login', function(Request $request){
-	
-	$credentials = $request->only('email', 'password');
+    
+    $credentials = $request->only('email', 'password');
     if (Auth::attempt($credentials)) {         
-		$rand_part = str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.uniqid());
+        $rand_part = str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.uniqid());
 
-		$user = \Auth::User();
-		$ok = User::where('email', $user['email'])->update(['token' => $rand_part]);	
-		return response()->json(['email' => $user['email'],'mensaje'=>'Usuario identificado!']);
-	}else {
-		return response()->json(['email' => $user['email'],'mensaje'=> 'Usuario No identificado!']);
-	}
+        $user = \Auth::User();
+        $ok = User::where('email', $user['email'])->update(['token' => $rand_part]);    
+        return response()->json(['email' => $user['id'], 'token' => $user['token'],'mensaje'=>1]);
+    }else {
+        return response()->json(['email' => $user['email'],'mensaje'=> 'Usuario No identificado!']);
+    }
 });
 
 Route::POST('/logout', function(Request $request){	
