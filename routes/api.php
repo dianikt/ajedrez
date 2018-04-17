@@ -134,6 +134,7 @@ Route::POST('/turno', function(Request $request) {
 });
 
 function compruebaMovimiento($nuevaPos){
-
+	$mvto = 0;
+	return $mvto;
 }
 
